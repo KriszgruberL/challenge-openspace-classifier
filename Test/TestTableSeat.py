@@ -8,6 +8,7 @@ from Utils.Table import Table, Seat
 class TestTable(unittest.TestCase):
     """Class that will test all Table functions"""
     sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../Utils')))
+
     def setUp(self):
         self.table = Table(4)
 
