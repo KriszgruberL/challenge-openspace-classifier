@@ -2,7 +2,8 @@ import random
 from typing import List, Union
 import pandas as pd
 from People import People
-from Table import Table  
+from Table import Table
+
 
 class Openspace:
     def __init__(self, nbCapacity: int = 24):
@@ -25,14 +26,14 @@ class Openspace:
         """
         return self.nbCapacity
     
-    def organised(self, listName: List[Union[People, str]]) -> None:
+    def organised(self, listName: List[People|str]) -> None:
         """
         Organizes people into tables in the openspace.
 
         Args:
-            listName (List[Union[People, str]]): List of people names or empty strings for empty seats.
+            listName (List[People | str]): List of people names or empty strings for empty seats.
         """
-        listTable = []
+        table = Table()
         countBlank = 0
 
         # Shuffle the list of names
@@ -41,28 +42,26 @@ class Openspace:
         # Add all people to a table
         for i in listName:
             # Check if the table is full
-            if len(listTable) >= Table.getCapacity() - countBlank:
-                self.addOpenspace(listTable)
-                listTable = []
+            if table.getLeftCapacity - countBlank <= 0:
+                self.addOpenspace(table)
+                table = Table()
+
                 countBlank = 0
 
             if i != '':
-                listTable.append(i)
+                self.openspace.assignSeat(i)
             else:
                 countBlank += 1
 
-        # Add the last table if it's not empty
-        if listTable:
-            self.addOpenspace(listTable)
-
-    def addOpenspace(self, listTable: List[Union[People, str]]) -> None:
+    def addOpenspace(self, table: Table) -> None:
         """
         Adds a table to the openspace.
 
         Args:
-            listTable (List[Union[People, str]]): List of people or empty seats to add to a table.
+            table (Table): The table to add to the openspace.
         """
-        self.openspace.append(listTable)
+        
+        self.openspace.append(table)
 
     def store(self, filename: str) -> None:
         """
@@ -76,7 +75,9 @@ class Openspace:
             table_data = [person.getName() if isinstance(person, People) else '' for person in table]
             data.append(table_data)
 
+        # Convert to DataFrame
         df = pd.DataFrame(data)
 
+        # Write to an Excel file
         df.to_excel(filename, index=False, header=False)
         
