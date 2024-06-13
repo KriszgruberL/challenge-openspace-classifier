@@ -2,10 +2,7 @@ import unittest
 import sys
 import os
 
-# Add the Utils directory to sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Utils')))
-
-from People import People
+from Utils import People
 
 class TestPeople(unittest.TestCase):
     def test_getName(self):
