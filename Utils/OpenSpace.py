@@ -4,6 +4,7 @@ import pandas as pd
 from People import People
 from Table import Table
 
+
 class Openspace:
     def __init__(self, nbCapacity: int = 24):
         """
@@ -30,7 +31,7 @@ class Openspace:
         Organizes people into tables in the openspace.
 
         Args:
-            listName (List[People, str]): List of people names or empty strings for empty seats.
+            listName (List[People | str]): List of people names or empty strings for empty seats.
         """
         table = Table()
         countBlank = 0
@@ -44,6 +45,7 @@ class Openspace:
             if table.getLeftCapacity - countBlank <= 0:
                 self.addOpenspace(table)
                 table = Table()
+
                 countBlank = 0
 
             if i != '':
@@ -58,6 +60,7 @@ class Openspace:
         Args:
             table (Table): The table to add to the openspace.
         """
+        
         self.openspace.append(table)
 
     def store(self, filename: str) -> None:
@@ -77,3 +80,4 @@ class Openspace:
 
         # Write to an Excel file
         df.to_excel(filename, index=False, header=False)
+        
