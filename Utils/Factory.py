@@ -1,4 +1,5 @@
 import pandas as pd
+from Utils.People import People
 from copy import deepcopy
 
 # Factory class to manage people
@@ -10,7 +11,7 @@ class Factory:
         self._peopleList = []
 
     @property
-    def peopleList(self):
+    def getPeopleList(self):
         """
         Property to return a deep copy of the list of Person objects.
 
@@ -29,7 +30,7 @@ class Factory:
         Raises:
         - ValueError: If the input is not an instance of Person.
         """
-        if isinstance(person, Person):
+        if isinstance(person, People):
             self._peopleList.append(person)
         else:
             raise ValueError("Only instances of Person can be added to the list")
@@ -52,7 +53,7 @@ class Factory:
         
         if 'Colleagues' in df.columns:
             for _, row in df.iterrows():
-                person = Person(name=row['Colleagues'])
+                person = People(name=row['Colleagues'])
                 self.addPerson(person)
         else:
             raise ValueError("Column 'Colleagues' not found in the Excel file")

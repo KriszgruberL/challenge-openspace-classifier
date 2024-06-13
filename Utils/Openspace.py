@@ -2,9 +2,9 @@ import random
 from typing import List
 
 import pandas as pd
-
 from Utils.People import People
 from Utils.Table import Table
+
 
 class Openspace:
     def __init__(self, nbCapacity: int = 24):
@@ -43,10 +43,7 @@ class Openspace:
         # Add all people to a table
         for i in listName:
             # Check if the openspace has reached its maximum capacity
-            if (
-                len(self.openspace) * table.getCapacity() + len(table)
-                >= self.nbCapacity
-            ):
+            if len(self.openspace) * table.getCapacity() + len(table) >= self.nbCapacity:
                 break
 
             # Check if the table is full
