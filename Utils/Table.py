@@ -23,6 +23,10 @@ class Seat:
             self.free = False
             return True
         else:
+
+    @property
+    def getOccupant(self) -> str:
+        return self.occupant
             return False
 
     def removeOccupant(self) -> str:
