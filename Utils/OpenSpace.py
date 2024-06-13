@@ -1,6 +1,8 @@
 import random
-from typing import List, Union
+from typing import List
+
 import pandas as pd
+
 from People import People
 from Table import Table
 
@@ -25,8 +27,8 @@ class Openspace:
             int: Maximum capacity of the openspace.
         """
         return self.nbCapacity
-    
-    def organised(self, listName: List[People|str]) -> None:
+
+    def organised(self, listName: List[People | str]) -> None:
         """
         Organizes people into tables in the openspace.
 
@@ -38,11 +40,11 @@ class Openspace:
 
         # Shuffle the list of names
         random.shuffle(listName)
-        
+
         # Add all people to a table
         for i in listName:
             # Check if the table is full
-            if table.getLeftCapacity - countBlank <= 0:
+            if table.getLeftCapacity() - countBlank <= 0:
                 self.addOpenspace(table)
                 table = Table()
 
@@ -60,7 +62,7 @@ class Openspace:
         Args:
             table (Table): The table to add to the openspace.
         """
-        
+
         self.openspace.append(table)
 
     def store(self, filename: str) -> None:
@@ -73,6 +75,7 @@ class Openspace:
         data = []
         for table in self.openspace:
             table_data = [person.getName() if isinstance(person, People) else '' for person in table]
+            print(table_data)
             data.append(table_data)
 
         # Convert to DataFrame
@@ -80,4 +83,4 @@ class Openspace:
 
         # Write to an Excel file
         df.to_excel(filename, index=False, header=False)
-        
+
