@@ -79,3 +79,11 @@ class Table:
         int: The number of free spots left.
         """
         return sum(1 for seat in self.seats if seat.free)
+
+    @property
+    def getCapacity(self) -> int:
+        """
+        Returns:
+        int: The number of spots.
+        """
+        return self.capacity
