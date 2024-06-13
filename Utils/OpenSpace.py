@@ -79,3 +79,4 @@ class Openspace:
         df = pd.DataFrame(data)
 
         df.to_excel(filename, index=False, header=False)
+        
