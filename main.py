@@ -1,9 +1,9 @@
-from Utils import Factory
-from Utils import Openspace
+from Utils.Factory import Factory
+from Utils.Openspace import Openspace
 
 def main():
     facto = Factory()
-    facto.loadPeopleFromExcel("./Data/")
+    facto.loadPeopleFromExcel("./Data/Example_Excel_Template.xlsx")
 
     openspace = Openspace()
     openspace.organised(facto.getPeopleList)
