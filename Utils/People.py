@@ -15,8 +15,14 @@ class People:
         self.name = name  # the name of the People
 
     @property
-    def getName(self):
+    def getName(self) -> str:
         """
         Return the name of the People.py.
         """
         return self.name
+    
+    def setName(self, name:str):
+        """
+        Set the name of the People.py.
+        """
+        self.name = name
