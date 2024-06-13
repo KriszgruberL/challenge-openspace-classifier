@@ -1,16 +1,16 @@
 import random
 from typing import List, Union
 import pandas as pd
-from People import People  # Assurez-vous que le module People existe et contient la classe People
-from Table import Table  # Assurez-vous que le module Table existe et contient la classe Table
+from People import People
+from Table import Table  
 
 class Openspace:
     def __init__(self, nbCapacity: int = 24):
         """
-        Initialise un Openspace avec une capacité spécifiée.
+        Initializes an Openspace with a specified capacity.
 
         Args:
-            nbCapacity (int): La capacité maximale de l'openspace. Par défaut, 24.
+            nbCapacity (int): The maximum capacity of the openspace. Default is 24.
         """
         self.nbCapacity = nbCapacity
         self.openspace = []
@@ -18,29 +18,29 @@ class Openspace:
     @property
     def getNbCapacity(self) -> int:
         """
-        Renvoie la capacité maximale de l'openspace.
+        Returns the maximum capacity of the openspace.
 
         Returns:
-            int: Capacité maximale de l'openspace.
+            int: Maximum capacity of the openspace.
         """
         return self.nbCapacity
     
     def organised(self, listName: List[Union[People, str]]) -> None:
         """
-        Organise les personnes dans des tables dans l'openspace.
+        Organizes people into tables in the openspace.
 
         Args:
-            listName (List[Union[People, str]]): Liste des noms des personnes ou des chaînes vides pour les places vides.
+            listName (List[Union[People, str]]): List of people names or empty strings for empty seats.
         """
         listTable = []
         countBlank = 0
 
-        # Mélange la liste de noms
+        # Shuffle the list of names
         random.shuffle(listName)
         
-        # Ajoute toutes les personnes à une table
+        # Add all people to a table
         for i in listName:
-            # Vérifie si la table est pleine
+            # Check if the table is full
             if len(listTable) >= Table.getCapacity() - countBlank:
                 self.addOpenspace(listTable)
                 listTable = []
@@ -51,33 +51,31 @@ class Openspace:
             else:
                 countBlank += 1
 
-        # Ajoute la dernière table si elle n'est pas vide
+        # Add the last table if it's not empty
         if listTable:
             self.addOpenspace(listTable)
 
     def addOpenspace(self, listTable: List[Union[People, str]]) -> None:
         """
-        Ajoute une table à l'openspace.
+        Adds a table to the openspace.
 
         Args:
-            listTable (List[Union[People, str]]): Liste des personnes ou des places vides à ajouter à une table.
+            listTable (List[Union[People, str]]): List of people or empty seats to add to a table.
         """
         self.openspace.append(listTable)
 
     def store(self, filename: str) -> None:
         """
-        Stocke l'organisation de l'openspace dans un fichier Excel.
+        Stores the organization of the openspace into an Excel file.
 
         Args:
-            filename (str): Le nom du fichier Excel où les données seront stockées.
+            filename (str): The name of the Excel file where the data will be stored.
         """
         data = []
         for table in self.openspace:
             table_data = [person.getName() if isinstance(person, People) else '' for person in table]
             data.append(table_data)
 
-        # Convertir en DataFrame
         df = pd.DataFrame(data)
 
-        # Écrire dans un fichier Excel
         df.to_excel(filename, index=False, header=False)
