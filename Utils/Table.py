@@ -8,8 +8,10 @@ class Seat:
       free (bool): A boolean to register is the seat is free or not. Default to True
       occupant (str) : Register the name of the person sitting in the seat.
       """
-    free: bool = True
-    occupant: str = ""
+
+    def __init__(self):
+        self.occupant: str = ""
+        self.free: bool = True
 
     def setOccupant(self, name) -> bool:
         """
@@ -52,8 +54,7 @@ class Table:
         Returns:
         bool: True if there is a free spot, False otherwise.
         """
-        temp = any(seat.free for seat in self.seats)
-        return temp
+        return any(seat.free for seat in self.seats)
 
     def assignSeat(self, name) -> bool:
         """
