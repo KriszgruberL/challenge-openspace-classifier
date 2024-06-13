@@ -16,6 +16,7 @@ class People:
         """
         self.name = name # the name of the People
 
+    @property   
     def getName(self):
         """
             Return the name of the People.py
