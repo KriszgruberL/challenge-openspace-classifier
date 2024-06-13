@@ -1,9 +1,10 @@
 import random
-from typing import List, Union
-import pandas as pd
-from People import People
-from Table import Table
+from typing import List
 
+import pandas as pd
+
+from Utils.People import People
+from Utils.Table import Table
 
 class Openspace:
     def __init__(self, nbCapacity: int = 24):
@@ -25,8 +26,8 @@ class Openspace:
             int: Maximum capacity of the openspace.
         """
         return self.nbCapacity
-    
-    def organised(self, listName: List[List[People|str]]) -> None:
+
+    def organised(self, listName: List[List[People | str]]) -> None:
         """
         Organizes people into tables in the openspace.
 
@@ -42,7 +43,10 @@ class Openspace:
         # Add all people to a table
         for i in listName:
             # Check if the openspace has reached its maximum capacity
-            if len(self.openspace) * Table.getCapacity() + len(table) >= self.nbCapacity:
+            if (
+                len(self.openspace) * table.getCapacity() + len(table)
+                >= self.nbCapacity
+            ):
                 break
 
             # Check if the table is full
@@ -51,7 +55,7 @@ class Openspace:
                 table = Table()
                 countBlank = 0
 
-            if i != '':
+            if i != "":
                 table.assignSeat(i)
             else:
                 countBlank += 1
@@ -60,9 +64,12 @@ class Openspace:
         if table:
             self.addOpenspace(table)
 
-        remaining_people = listName[self.nbCapacity:]
+        remaining_people = listName[self.nbCapacity :]
         if remaining_people:
-            print("These people could not be seated due to capacity limits:", remaining_people)
+            print(
+                "These people could not be seated due to capacity limits:",
+                remaining_people,
+            )
 
     def addOpenspace(self, table: Table) -> None:
         """
@@ -73,7 +80,6 @@ class Openspace:
         """
         self.openspace.append(table)
 
-
     def store(self, filename: str) -> None:
         """
         Stores the organization of the openspace into an Excel file.
@@ -83,7 +89,10 @@ class Openspace:
         """
         data = []
         for table in self.openspace:
-            table_data = [person.getName() if isinstance(person, People) else '' for person in table]
+            table_data = [
+                person.getName() if isinstance(person, People) else ""
+                for person in table
+            ]
             data.append(table_data)
 
         # Convert to DataFrame
@@ -91,4 +100,3 @@ class Openspace:
 
         # Write to an Excel file
         df.to_excel(filename, index=False, header=False)
-        
