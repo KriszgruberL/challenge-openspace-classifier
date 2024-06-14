@@ -4,10 +4,11 @@ from Utils.Openspace import Openspace
 
 def main():
     facto = Factory()
-    openspace = Openspace()
-    
+    openspace = facto.loadConfigFromJson("./Data/room_setup.json")
+
     facto.loadPeopleFromExcel("./Data/Example_Excel_Template.xlsx", openspace)
-    openspace.organised(facto.getPeopleList)
+
+    # openspace.organised(facto.getPeopleList)
     openspace.store("./Data/ordered.xlsx")
     openspace.display()
 

@@ -1,0 +1,9 @@
+{
+  "openspace_capacity": 24,
+  "tables": [
+    {"capacity": 4},
+    {"capacity": 2},
+    {"capacity": 3},
+    {"capacity": 6}
+  ]
+}

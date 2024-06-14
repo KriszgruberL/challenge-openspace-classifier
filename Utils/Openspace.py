@@ -27,18 +27,17 @@ class Openspace:
         """
         return self.nbCapacity
 
-    def organised(self, listName: List[List[People | str]]) -> None:
+    def organised(self, listName: List[List[People | str]], table: List[Table]) -> None:
         """
         Organizes people into tables in the openspace.
-
-        Args:
-            listName (List[List[People|str]]): List of people names or empty strings for empty seats.
+            :param listName: (List[List[People|str]]) : List of people names or empty strings for empty seats.
+            :param table:
         """
-        table = Table()
+        # table = Table()
         countBlank = 0
 
         # Shuffle the list of names
-        
+
         random.shuffle(listName)
 
         # Add all people to a table
@@ -63,15 +62,15 @@ class Openspace:
         if table:
             self.addOpenspace(table)
 
-        remaining_people = listName[self.nbCapacity :]
+        remaining_people = listName[self.nbCapacity:]
         if remaining_people:
             print(
                 "==============\n"
                 "These people could not be seated due to capacity limits:",
             )
-            for i in (remaining_people):
+            for i in remaining_people:
                 print(i.getName)
-           
+
             print("==============")
 
     def addOpenspace(self, table: Table) -> None:
@@ -94,8 +93,7 @@ class Openspace:
         for table in self.openspace:
             table_data = [seat.getOccupant.getName if seat.getOccupant != "" else "" for seat in table.getSeats]
             data.append(table_data)
-    
-    
+
         # Convert to DataFrame
         df = pd.DataFrame(data)
 
@@ -108,4 +106,3 @@ class Openspace:
             for index, seat in enumerate(table.seats, start=1):
                 print(f"  Seat {index}: {seat.__str__()}")
             print()
-
