@@ -36,6 +36,7 @@ class Seat:
         self.free = True
         return name
 
+
 class Table:
     """
     A class to represent a table in the openspace with a fixed capacity and seats.
@@ -70,6 +71,7 @@ class Table:
                 return True
         return False
 
+    @property
     def getLeftCapacity(self) -> int:
         """
         Calculate the number of free spots left at the table.
