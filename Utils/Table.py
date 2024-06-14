@@ -1,5 +1,6 @@
-from typing import List
+import copy
 
+from typing import List
 
 class Seat:
     """
@@ -13,12 +14,9 @@ class Seat:
         self.occupant: str = ""
         self.free: bool = True
 
-    def setOccupant(self, name: str) -> bool:
+    def setOccupant(self, name) -> bool:
         """
         Sit a person passed by name in the seat
-        Attributes:
-        name (str): The name of the person to sit.
-        Return :
         bool: True if the person is correctly seated. False otherwise.
         """
         if self.free:
@@ -27,15 +25,6 @@ class Seat:
             return True
         else:
             return False
-
-    @property
-    def getOccupant(self) -> str:
-        """
-        Getter for occupant
-        Returns:
-        str : The name of the person in the seat.
-        """
-        return self.occupant
 
     def removeOccupant(self) -> str:
         """
@@ -47,6 +36,10 @@ class Seat:
         self.occupant = ""
         self.free = True
         return name
+    
+    @property
+    def getOccupant(self) -> str:
+        return self.occupant
 
 
 class Table:
@@ -99,3 +92,8 @@ class Table:
         int: The number of spots.
         """
         return self.capacity
+    
+    
+    @property
+    def getSeats(self) -> List[Seat]:
+        return copy.deepcopy(self.seats)
