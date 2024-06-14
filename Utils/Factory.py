@@ -1,5 +1,6 @@
 import pandas as pd
 from Utils.People import People
+from Utils.Openspace import Openspace
 from copy import deepcopy
 
 # Factory class to manage people
@@ -20,7 +21,7 @@ class Factory:
         """
         return deepcopy(self._peopleList)
 
-    def addPerson(self, person):
+    def addPerson(self, person: People):
         """
         Add a Person object to the factory's list of people.
 
@@ -35,7 +36,7 @@ class Factory:
         else:
             raise ValueError("Only instances of Person can be added to the list")
 
-    def loadPeopleFromExcel(self, file_path):
+    def loadPeopleFromExcel(self, file_path: str, openspace: Openspace):
         """
         Load people from an Excel file into the factory.
 
@@ -57,3 +58,7 @@ class Factory:
                 self.addPerson(person)
         else:
             raise ValueError("Column 'Colleagues' not found in the Excel file")
+        
+        while openspace.getNbCapacity > len(self._peopleList):
+            self._peopleList.append('')
+

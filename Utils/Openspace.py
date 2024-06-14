@@ -1,7 +1,7 @@
 import random
 from typing import List
-
 import pandas as pd
+
 from Utils.People import People
 from Utils.Table import Table
 
@@ -38,13 +38,15 @@ class Openspace:
         countBlank = 0
 
         # Shuffle the list of names
+        
         random.shuffle(listName)
 
         # Add all people to a table
         for i in listName:
             # Check if the openspace has reached its maximum capacity
-            if len(self.openspace) * table.getCapacity() + len(table) >= self.nbCapacity:
-                break
+
+            # if len(self.openspace) * table.getCapacity + len(table) >= self.nbCapacity:
+            #     break
 
             # Check if the table is full
             if table.getLeftCapacity - countBlank <= 0:
@@ -64,9 +66,13 @@ class Openspace:
         remaining_people = listName[self.nbCapacity :]
         if remaining_people:
             print(
+                "==============\n"
                 "These people could not be seated due to capacity limits:",
-                remaining_people,
             )
+            for i in (remaining_people):
+                print(i.getName)
+           
+            print("==============")
 
     def addOpenspace(self, table: Table) -> None:
         """
@@ -86,12 +92,10 @@ class Openspace:
         """
         data = []
         for table in self.openspace:
-            table_data = [
-                person.getName() if isinstance(person, People) else ""
-                for person in table
-            ]
+            table_data = [seat.getOccupant.getName if seat.getOccupant != "" else "" for seat in table.getSeats]
             data.append(table_data)
-
+    
+    
         # Convert to DataFrame
         df = pd.DataFrame(data)
 
