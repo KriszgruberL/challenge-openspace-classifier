@@ -13,9 +13,12 @@ class Seat:
         self.occupant: str = ""
         self.free: bool = True
 
-    def setOccupant(self, name) -> bool:
+    def setOccupant(self, name: str) -> bool:
         """
         Sit a person passed by name in the seat
+        Attributes:
+        name (str): The name of the person to sit.
+        Return :
         bool: True if the person is correctly seated. False otherwise.
         """
         if self.free:
@@ -23,11 +26,16 @@ class Seat:
             self.free = False
             return True
         else:
+            return False
 
     @property
     def getOccupant(self) -> str:
+        """
+        Getter for occupant
+        Returns:
+        str : The name of the person in the seat.
+        """
         return self.occupant
-            return False
 
     def removeOccupant(self) -> str:
         """
