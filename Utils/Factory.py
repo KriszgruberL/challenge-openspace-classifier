@@ -59,6 +59,3 @@ class Factory:
         else:
             raise ValueError("Column 'Colleagues' not found in the Excel file")
         
-        while openspace.getNbCapacity > len(self._peopleList):
-            self._peopleList.append('')
-

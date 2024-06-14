@@ -15,10 +15,9 @@ class Openspace:
         Args:
             nbCapacity (int): The maximum capacity of the openspace. Default is 24.
         """
-        self.nbCapacity = config.getConfig['nbCapacity']
-        self.openspace = []
         self.config = config
-        
+        self.nbCapacity = self.config.getConfig['limitTable'] * self.config.getConfig['capacity']
+        self.openspace = []
 
     @property
     def getNbCapacity(self) -> int:
@@ -29,58 +28,52 @@ class Openspace:
             int: Maximum capacity of the openspace.
         """
         return self.nbCapacity
-    
-    def setNbCapacity(self, nbMax:int) -> None:
+
+    def setNbCapacity(self, nbMax: int) -> None:
         """
-            Change the number of nbCapacity.
+        Change the number of nbCapacity.
         """
         self.nbCapacity = nbMax
 
-    def organised(self, listName: List[List[People | str]]) -> None:
+    def organised(self, listName: List[People]) -> None:
         """
         Organizes people into tables in the openspace.
 
         Args:
-            listName (List[List[People|str]]): List of people names or empty strings for empty seats.
+            listName (List[People]): List of people names.
         """
-        table = Table(self.config)
-        countBlank = 0
-
         # Shuffle the list of names
-        
         random.shuffle(listName)
 
-        # Add all people to a table
-        print(len(listName))
+        # Initialize all tables
+        num_tables = self.config.getConfig['limitTable']
+        self.openspace = [Table(self.config) for _ in range(num_tables)]
 
-        for i in listName:
-            # Check if the table is full
-            if table.getLeftCapacity - countBlank <= 0 and len(self.openspace) != self.config.getConfig['limitTable']:
-                self.addOpenspace(table)
-                table = Table(self.config)
-                countBlank = 0
+        # Distribute people across tables in a round-robin manner
+        table_index = 0
+        unseated_people = []
 
-            if i != "":
-                table.assignSeat(i)
+        for person in listName:
+            while self.openspace[table_index].getLeftCapacity <= 0:
+                table_index = (table_index + 1) % num_tables
+                if all(table.getLeftCapacity <= 0 for table in self.openspace):
+                    # All tables are full, add to unseated_people
+                    unseated_people.append(person)
+                    break
             else:
-                countBlank += 1
-                
-        # Add the last table if it's not empty
-        if table:
-            self.addOpenspace(table)
+                self.openspace[table_index].assignSeat(person)
+                table_index = (table_index + 1) % num_tables
 
-        table = Table(self.config)
-        [self.openspace.append(table) for _ in range(self.config.getConfig['limitTable']) if len(self.openspace) != self.config.getConfig['limitTable']]
+        # Fill remaining seats with None (empty seats)
+        for table in self.openspace:
+            while table.getLeftCapacity > 0:
+                table.assignSeat(None)
 
-        remaining_people = listName[self.config.getConfig['limitTable']*self.config.getConfig['capacity'] :]
-        if remaining_people:
-            print(
-                "==============\n"
-                "These people could not be seated due to capacity limits:",
-            )
-            for i in (remaining_people):
-                print(i.getName)
-           
+        if unseated_people:
+            print("==============\n"
+                  "These people could not be seated due to capacity limits:")
+            for person in unseated_people:
+                print(person.getName)
             print("==============")
 
     def addOpenspace(self, table: Table) -> None:
@@ -101,10 +94,9 @@ class Openspace:
         """
         data = []
         for table in self.openspace:
-            table_data = [seat.getOccupant.getName if seat.getOccupant != "" else "" for seat in table.getSeats]
+            table_data = [seat.getOccupant.getName if seat.getOccupant else "" for seat in table.getSeats]
             data.append(table_data)
-    
-    
+
         # Convert to DataFrame
         df = pd.DataFrame(data)
 
@@ -112,9 +104,14 @@ class Openspace:
         df.to_excel(filename, index=False, header=False)
 
     def display(self) -> None:
+        """
+            Affiche l'openspace
+        """
         for index, table in enumerate(self.openspace, start=1):
             print(f"Table {index}")
-            for index, seat in enumerate(table.seats, start=1):
-                print(f"  Seat {index}: {seat.__str__()}")
-
-    def
+            for seat_index, seat in enumerate(table.seats, start=1):
+                if seat.getOccupant:
+                    print(f"  Seat {seat_index}: Occupied by {seat.getOccupant.getName}")
+                else:
+                    print(f"  Seat {seat_index}: Free")
+            print()
