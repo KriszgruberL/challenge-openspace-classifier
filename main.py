@@ -13,6 +13,7 @@ def main():
     facto.loadPeopleFromExcel("./Data/Example_Excel_Template.xlsx", openspace)
     openspace.organised(facto.getPeopleList)
     openspace.store("./Data/ordered.xlsx")
+    openspace.display()
 
     openspace.display()
 

@@ -116,4 +116,4 @@ class Openspace:
             print(f"Table {index}")
             for index, seat in enumerate(table.seats, start=1):
                 print(f"  Seat {index}: {seat.__str__()}")
-            print()
+
