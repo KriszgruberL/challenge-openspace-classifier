@@ -109,3 +109,4 @@ class Openspace:
                 print(f"  Seat {index}: {seat.__str__()}")
             print()
 
+    def
