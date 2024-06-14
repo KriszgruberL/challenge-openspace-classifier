@@ -14,6 +14,12 @@ class Seat:
         self.occupant: str = ""
         self.free: bool = True
 
+    def __str__(self):
+        if self.free:
+            return "Free"
+        else:
+            return f"Occupied by {self.getOccupant}"
+
 
     def setOccupant(self, name: str) -> bool:
         """
@@ -57,8 +63,7 @@ class Table:
 
     def __str__(self):
         seat_status = ', '.join(str(seat) for seat in self.seats)
-        return f"Table capacity: {self.capacity}, Seats: [{seat_status}]"
-
+        return f"Table capacity: {self.capacity}\n\tSeats: [{seat_status}]"
 
     def hasFreeSpot(self) -> bool:
         """
@@ -104,6 +109,4 @@ class Table:
     def getSeats(self) -> List[Seat]:
         return copy.deepcopy(self.seats)
       
-      
-    def __str__(self):
-        return f"{'Empty' if self.free else self.occupant}"
+

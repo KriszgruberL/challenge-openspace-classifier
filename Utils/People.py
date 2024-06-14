@@ -14,6 +14,9 @@ class People:
         """
         self.name = name  # the name of the People
 
+    def __str__(self):
+        return self.name
+
     @property
     def getName(self) -> str:
         """
