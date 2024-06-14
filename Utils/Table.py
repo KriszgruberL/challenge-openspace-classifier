@@ -13,6 +13,9 @@ class Seat:
         self.occupant: str = ""
         self.free: bool = True
 
+    def __str__(self):
+        return f"{'Empty' if self.free else self.occupant}"
+
     def setOccupant(self, name: str) -> bool:
         """
         Sit a person passed by name in the seat
@@ -60,6 +63,11 @@ class Table:
     def __init__(self, capacity: int = 4):
         self.capacity = capacity
         self.seats: List[Seat] = [Seat() for _ in range(capacity)]
+
+    def __str__(self):
+        seat_status = ', '.join(str(seat) for seat in self.seats)
+        return f"Table capacity: {self.capacity}, Seats: [{seat_status}]"
+
 
     def hasFreeSpot(self) -> bool:
         """
