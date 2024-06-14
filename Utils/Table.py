@@ -14,6 +14,12 @@ class Seat:
         self.occupant: str = ""
         self.free: bool = True
 
+    def __str__(self):
+        if self.free:
+            return "Free"
+        else:
+            return f"Occupied by {self.getOccupant}"
+
 
     def setOccupant(self, name: str) -> bool:
         """
@@ -51,13 +57,13 @@ class Table:
     seats (List[Seat]): The list of seats at the table.
     """
 
-    def __init__(self, capacity: int = 4):
-        self.capacity = capacity
-        self.seats: List[Seat] = [Seat() for _ in range(capacity)]
+    def __init__(self, config):
+        self.capacity = config.getConfig['capacity']
+        self.seats: List[Seat] = [Seat() for _ in range(self.capacity)]
 
     def __str__(self):
         seat_status = ', '.join(str(seat) for seat in self.seats)
-        return f"Table capacity: {self.capacity}, Seats: [{seat_status}]"
+        return f"Table capacity: {self.capacity}\n\tSeats: [{seat_status}]"
 
 
     def hasFreeSpot(self) -> bool:
@@ -99,11 +105,14 @@ class Table:
         """
         return self.capacity
     
+    def setCapacity(self, nbMax:int) -> None:
+        """
+            Change the number of spots.
+        """
+        self.capacity = nbMax
     
     @property
     def getSeats(self) -> List[Seat]:
         return copy.deepcopy(self.seats)
       
       
-    def __str__(self):
-        return f"{'Empty' if self.free else self.occupant}"
