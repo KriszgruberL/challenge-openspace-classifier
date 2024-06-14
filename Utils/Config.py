@@ -7,7 +7,7 @@ class Config:
     This class wil charge Config.json.
     """
 
-    def __init__(self, link: str='config.json'):
+    def __init__(self, link: str='./Data/config.json'):
         """
         Constructor of the class Config.py
 
